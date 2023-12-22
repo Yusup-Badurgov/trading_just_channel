@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 import time
 import MetaTrader5 as mt5
@@ -40,10 +42,13 @@ class MarketAnalyzer:
     def ensure_mt5_connection(self):
         """ Проверка подключения к MT5 и переподключение при необходимости. """
         if not mt5.terminal_info():
+            print("Подключение к MT5 отсутствует. Попытка переподключения...")
             if not mt5.initialize():
                 print("Ошибка инициализации MetaTrader 5, пытаюсь переподключиться...")
                 time.sleep(10)  # задержка перед следующей попыткой
                 return False
+        else:
+            print("Подключение к MT5 - активно!")
         return True
 
     def get_candle_data(self, symbol, timeframe):
@@ -105,6 +110,8 @@ bot = TelegramBot('6522358778:AAGJrRU9w2S8Jo0U8YpbVIRN3uFbYNPJrx8', '@DragonSign
 analyzer = MarketAnalyzer(selected_pairs, timeframes)
 
 while True:
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"Текущее время, скрипт идет по циклу: {current_time}")
     if analyzer.ensure_mt5_connection():
         signals = analyzer.analyze()
         for message in signals:
