@@ -127,14 +127,27 @@ class Application(tk.Frame):
         self.master = master
         self.pack()
         self.create_widgets()
+        self.message_count = 0  # Счетчик сообщений
+        self.max_messages = 100  # Максимальное количество сообщений перед очисткой
 
     def create_widgets(self):
         self.text_area = tk.Text(self)
         self.text_area.pack(side="top", fill="both", expand=True)
 
+        self.clear_button = tk.Button(self, text="Очистить", command=self.clear_text_area)
+        self.clear_button.pack(side="bottom")
+
     def update_text_area(self, message):
+        self.message_count += 1
+        if self.message_count > self.max_messages:
+            self.clear_text_area()
+            self.message_count = 0
+
         self.text_area.insert(tk.END, message + '\n')
         self.text_area.see(tk.END)  # Прокрутка до последнего сообщения
+
+    def clear_text_area(self):
+        self.text_area.delete("1.0", tk.END)  # Удаляет весь текст из текстового поля
 
 
 def run_bot(app, analyzer, bot):
