@@ -14,11 +14,12 @@ selected_pairs = [
 ]
 
 # таймфреймы
-timeframes = [mt5.TIMEFRAME_M3, mt5.TIMEFRAME_M4, mt5.TIMEFRAME_M5, mt5.TIMEFRAME_M6, mt5.TIMEFRAME_M10,
+timeframes = [mt5.TIMEFRAME_M2, mt5.TIMEFRAME_M3, mt5.TIMEFRAME_M4, mt5.TIMEFRAME_M5, mt5.TIMEFRAME_M6, mt5.TIMEFRAME_M10,
               mt5.TIMEFRAME_M12, mt5.TIMEFRAME_M15]
 
 
 class TelegramBot:
+
     def __init__(self, token, channel_id):
         self.token = token
         self.channel_id = channel_id
